@@ -1,0 +1,37 @@
+.container{
+    width: 960px;
+    margin: 0 auto;
+}
+.content{
+    clear: both;
+    display: inline-block;
+}
+.para1{
+    float: left;
+}
+.para2{
+    padding-left: 265px;
+    float: right;
+}
+.check{
+    padding-left: 480px;
+    margin: 0 auto;
+    padding-top: 50px;
+}
+
+.result{
+    padding-top: 50px;
+    clear: both;
+}
+.result1{
+    float: left;
+    width: 400px;
+    height: 350px;
+    border: solid 1px black;
+}
+.result2{
+    width: 400px;
+    height: 350px;
+    border: solid 1px black;
+    float: right;
+}
