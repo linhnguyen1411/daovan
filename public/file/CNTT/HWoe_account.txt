@@ -1,0 +1,6 @@
+﻿###### Turnitin admin Thủy :
+id : thuy.pham@igroupnet.com
+pass: dell997
+###### Turnitin Linh :
+id : nguyenphoanglinh@dtu.edu.vn
+pass: abc123

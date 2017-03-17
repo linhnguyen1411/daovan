@@ -11,9 +11,25 @@
 |
 */
 
-Route::get('/',function (){
+
+
+Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('index', 'indexController@getData');
-Route::post('index','indexController@postData');
+Route::post('index', 'indexController@postData');
+
+Route::group(['prefix' => 'keywords'], function (){
+    Route::get('add', 'keywordsController@getData');
+    Route::post('add', 'keywordsController@postData');
+
+    Route::get('list','keywordsController@getList');
+    Route::get('list/{nganh}','keywordsController@ajaxList');
+    Route::post('list','keywordsController@postList');
+});
+Route::get('test', 'testController@test');
+Route::post('test', 'testController@test');
+
+Route::get('meeting', 'MeetingController@getData');
+
