@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Auth\Access\Response;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use App\Nganhhoc;
@@ -38,47 +39,30 @@ class keywordsController extends Controller
 
 
     //get list
-    public function getList(){
+    public function getList(Request $request){
         $nganh = Nganhhoc::all();
-        return view('front.keywords.list',['nganh'=>$nganh]);
+        $id_nganh=$request->nganh;
+        $kw = Keywords::where('id_nganh',$id_nganh)->paginate(10);
+        return view('front.keywords.list',['nganh'=>$nganh,'kw'=>$kw,'request'=>$id_nganh]);
     }
 
-    public function ajaxList($nganh){
-        $kw= Keywords::where('id_nganh',$nganh)->paginate(10);
-        $c = Keywords::where('id_nganh',$nganh)->count();
-        $rt="  <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Keywords</th>
-                    <th>Ngành</th>
-                    <th>Created_at</th>
-                    <th>Edit_ad</th>
-                </tr>
-                </thead>";
-        foreach ($kw as $k) {
-            $rt=$rt."<tr>";
-            $rt=$rt."<td>$k->id</td>";
-            $rt=$rt."<td>$k->keywords</td>";
-            $rt=$rt."<td>$k->id_nganh</td>";
-            $rt=$rt."<td>$k->created_at</td>";
-            $rt=$rt."<td>$k->updated_at</td>";
-            $rt=$rt."<td><a href='#'>Edit</a></td>";
-            $rt=$rt."<td><a href='#'>Delete</a></td>";
-            $rt=$rt."</tr>";
-        }
-        $aj = '[';
-        foreach ($kw as $k){
-            $aj=$aj.'["'.$k->id.'",' ;
-            $aj=$aj.'"'.$k->keywords.'",' ;
-            $aj=$aj.'"'.$k->nganhhoc->nganhhoc.'",' ;
-            $aj=$aj.'"'.$k->created_at.'",' ;
-            $aj=$aj.'"'.$k->updated_at.'"]' ;
-        }
-        $aj = $aj.'];';
-        dd($aj);
-            return response()->json([
+    public function postList(Request $request){
+        $nganh = Nganhhoc::all();
+        $kw = Keywords::where('id_nganh',$request->nganh)->paginate(10);
 
-            ]);
-        //return redirect('keywords/list',['kw'=>$kw]);
+        return view('front.keywords.list',compact($kw),['kw'=>$kw,'nganh'=>$nganh,'request'=>$request->nganh]);
     }
+
+    public function delete($id){
+        $ii= Keywords::where('id',$id)->get();
+        $nganh = Nganhhoc::all();
+        foreach ($ii as $i){
+            $request = $i->id_nganh;
+        }
+        $kw = Keywords::where('id_nganh',$request)->paginate(10);
+        $delete = Keywords::where('id',$id)->delete();
+        //return redirect('keywords/list',['request'=>$page])->with('thongbao', 'xóa keyword thành công');
+        return redirect('keywords/list',['kw'=>$kw,'request'=>$request,'nganh'=>$nganh])->with('thongbao','xóa thành công');
+    }
+
 }

@@ -25,8 +25,11 @@ Route::group(['prefix' => 'keywords'], function (){
     Route::post('add', 'keywordsController@postData');
 
     Route::get('list','keywordsController@getList');
-    Route::get('list/{nganh}','keywordsController@ajaxList');
     Route::post('list','keywordsController@postList');
+
+    Route::get('delete/{id}','keywordsController@delete');
+
+
 });
 Route::get('test', 'testController@test');
 Route::post('test', 'testController@test');
